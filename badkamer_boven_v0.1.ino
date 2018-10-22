@@ -27,10 +27,20 @@ D13 - SPI SCK
 A0 - SD Write Protect
 A1 - SD Detect
 */
-
+/*
+ * RJ45 connector
+ * 1 - 5V
+ * 2 - D4 (DHT22_A data)
+ * 3 - D6 (PIR data)
+ * 4 - 3,3V
+ * 5 - SCL \__ i2c for bh1750
+ * 6 - SDA / 
+ * 7 - D30 (DHT22_B data)
+ * 8 - GND
+ */
 #define OneWirePin    2     // DS18B20 data
-#define DHTPIN_A      4     // DHT22 data first
-//#define DHTPIN_B    5     // DHT22 data second
+#define DHTPIN_A      4     // DHT22_A data first
+#define DHTPIN_B      5     // DHT22_B data second
 #define PIRPIN        6     // HC-SR501 PIR data
 #define CKIPIN        8     // WS2801 CKI (Data clock)
 #define SDIPIN        9     // WS2801 SDI (Serial Data)
@@ -50,13 +60,15 @@ A1 - SD Detect
 
 #define basevector            "raw/mac/"         // do not exceed 10 chars, see below sram note
 #define statusvector          "/Status"                   // do not exceed 10 chars, see below sram note
-#define dsTopic               "/Temperature/2"
+#define dsTopic               "/Temperature/3"
 #define relayTopic            "/Relay"
 #define switchTopic           "/Switch"
 #define RGBTopic              "/RGB"
 #define pirTopic              "/Pir" 
 #define dhtaTempTopic         "/Temperature/1" 
 #define dhtaHummTopic         "/Humidity/1" 
+#define dhtbTempTopic         "/Temperature/2" 
+#define dhtbHummTopic         "/Humidity/2" 
 #define bh1750Topic           "/LightLevel/1" 
 #define openhabTopic          "openhab/time"
 
@@ -115,12 +127,14 @@ bool standalone    = true;
 
 float humidity1;
 float temperature1;
+float humidity2;
+float temperature2;
 
 // Initialize the BH1750 Lightmeter
 BH1750 lightMeter(0x23);
 // Initialize the DHT22
 DHT dht_a(DHTPIN_A, DHTTYPE);
-//DHT dht_b(DHTPIN_B, DHTTYPE);
+DHT dht_b(DHTPIN_B, DHTTYPE);
 // Initialize the Ethernet client library
 OneWire ds(OneWirePin); 
 DallasTemperature sensors(&ds);

@@ -48,12 +48,19 @@ void dht22Run(){
     // Reading temperature or humidity takes about 250 milliseconds!
     // Sensor readings may also be up to 2 seconds 'old' (its a very slow sensor)
     humidity1 = dht_a.readHumidity();
+    humidity2 = dht_b.readHumidity();
     // Read temperature as Celsius (the default)
     temperature1 = dht_a.readTemperature();
+    temperature2 = dht_b.readTemperature();
 
     // Check if any reads failed and exit early (to try again).
     if (isnan(humidity1) || isnan(temperature1) ) {
-      Serial.println("Failed to read from DHT sensor!");
+      Serial.println("Failed to read from DHT_A sensor!");
+      return;
+    }
+
+    if (isnan(humidity2) || isnan(temperature2) ) {
+      Serial.println("Failed to read from DHT_B sensor!");
       return;
     }
   
@@ -69,6 +76,19 @@ void dht22Run(){
     Serial.println(humidity1);  
     sprintf(commandtopic, "%s%s", basetopic, dhtaHummTopic);
     mqttClient.publish(commandtopic,buffer);
+
+    dtostrf(temperature2,0, 0, buffer);
+    Serial.print("Temperature_2 : "); 
+    Serial.println(temperature2);  
+    sprintf(commandtopic, "%s%s", basetopic, dhtbTempTopic);
+    mqttClient.publish(commandtopic,buffer);
+  
+    dtostrf(humidity2,0, 0, buffer);
+    Serial.print("Humidity_2    : "); 
+    Serial.println(humidity2);  
+    sprintf(commandtopic, "%s%s", basetopic, dhtbHummTopic);
+    mqttClient.publish(commandtopic,buffer);
+
     timeElapsed = 0;              // reset the counter to 0 so the counting starts over...
     ReadDHT = true;
   }
@@ -87,7 +107,7 @@ void ds18B20Run()
         setColor(20,10,0);
       char temperaturenow [15];
       dtostrf(sensors.getTempCByIndex(0),3, 2, temperaturenow);  //// convert float to char      
-      Serial.print("Temperature_2 : "); 
+      Serial.print("Temperature_3 : "); 
       Serial.println(temperaturenow);  
       sprintf(commandtopic, "%s%s", basetopic, dsTopic);
       mqttClient.publish(commandtopic,temperaturenow);
