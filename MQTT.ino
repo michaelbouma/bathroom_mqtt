@@ -1,5 +1,3 @@
-
-
 void MQTTinit() {
     sprintf (macString, "%02X%02X%02X%02X%02X%02X", mac[0], mac[1], mac[2], mac[3], mac[4], mac[5]);  
     sprintf (buff, "%s%s/#", basevector, macString);
@@ -80,7 +78,7 @@ void mqttRun()
     
       else 
       {
-        setColor(10, 0, 0); // Color green
+        setColor(10, 0, 0); // Color red
         Serial.println("MQTT failed !!");
         Serial.print("retry in ");
         Serial.print(MQTTDisconnect);
@@ -104,9 +102,6 @@ void callback(char* topic, byte* payload, unsigned int length) {
   memcpy(json, payload, length);
   json[length] = '\0';  
   String MyTopic = topic;
-
-
-
   String TmpStr;
   int t;
 

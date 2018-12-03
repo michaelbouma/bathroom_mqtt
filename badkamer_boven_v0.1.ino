@@ -5,11 +5,9 @@
 #include <OneWire.h>
 #include <DallasTemperature.h>
 
-//#include <clsPCA9555.h>
 #include <Ethernet.h>
 #include <EEPROM.h>
 #include <elapsedMillis.h>
-//#include <Adafruit_Sensor.h>
 #include <PubSubClient.h>
 
 // Enter a MAC address for your controller below.
@@ -76,7 +74,6 @@ A1 - SD Detect
 
 #define heartbeat_timeout         61000        // we expect an MQTT message at least every 60 seconds from openhab
 #define initialmqttconnecttimeout 35000        // should be 35000
-
 #define MQTTDisconnect            5000         // number of miliseconds between each mqtt reconnect try
 
 #define dsStart                   9500         // Read temp once per second

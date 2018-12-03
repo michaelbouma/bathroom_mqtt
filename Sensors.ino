@@ -118,8 +118,10 @@ void ds18B20Run()
   {
       if (dsRunning == false)
       {
-        setColor(0,0,100);
+        setColor(50,50,50);
+        sensors.setWaitForConversion(false);  // makes it async        
         sensors.requestTemperatures();
+        sensors.setWaitForConversion(true);
         dsRunning = true;
       }
   }
